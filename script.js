@@ -1,60 +1,57 @@
 const imageInput = document.getElementById('imageInput');
-const dropZone = document.getElementById('dropZone');
-const fileName = document.getElementById('fileName');
+const conversionType = document.getElementById('conversionType');
+const fileInfo = document.getElementById('fileInfo');
 const previewContainer = document.getElementById('previewContainer');
 const imagePreview = document.getElementById('imagePreview');
+const convertBtn = document.getElementById('convertBtn');
 const downloadLink = document.getElementById('downloadLink');
 
-// Handle Click Upload
-dropZone.addEventListener('click', () => imageInput.click());
+let selectedFile = null;
 
 // Handle File Selection
-imageInput.addEventListener('change', handleFileSelect);
-
-// Handle Drag & Drop
-dropZone.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.classList.add('dragover');
-});
-
-dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('dragover');
-});
-
-dropZone.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('dragover');
-    const files = e.dataTransfer.files;
-    if (files.length) {
-        imageInput.files = files;
-        handleFileSelect();
-    }
-});
-
-function handleFileSelect() {
-    if (imageInput.files && imageInput.files[0]) {
-        const file = imageInput.files[0];
-        fileName.textContent = file.name;
+imageInput.addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+        selectedFile = e.target.files[0];
+        fileInfo.textContent = `Selected: ${selectedFile.name}`;
         
+        // Show Preview
         const reader = new FileReader();
         reader.onload = function(e) {
             imagePreview.src = e.target.result;
-            previewContainer.style.display = 'block';
-            downloadLink.style.display = 'none'; // Hide download until converted
+            previewContainer.style.display = 'flex';
+            convertBtn.style.display = 'block';
+            downloadLink.style.display = 'none';
         };
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(selectedFile);
     }
-}
+});
 
+// Handle Conversion Logic
 function convertImage() {
-    if (!imageInput.files || !imageInput.files[0]) {
-        alert('Please select an image first!');
+    if (!selectedFile) {
+        alert("Please choose a file first!");
         return;
     }
 
-    const format = document.getElementById('formatSelect').value;
+    const type = conversionType.value;
+    if (!type) {
+        alert("Please select a conversion type from the dropdown!");
+        return;
+    }
+
+    let targetFormat = '';
+    let extension = '';
+
+    // Map dropdown value to MIME type
+    switch(type) {
+        case 'to-jpg': targetFormat = 'image/jpeg'; extension = 'jpg'; break;
+        case 'to-png': targetFormat = 'image/png'; extension = 'png'; break;
+        case 'to-webp': targetFormat = 'image/webp'; extension = 'webp'; break;
+        case 'to-gif': targetFormat = 'image/gif'; extension = 'gif'; break;
+        case 'to-bmp': targetFormat = 'image/bmp'; extension = 'bmp'; break;
+    }
+
     const reader = new FileReader();
-    
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
@@ -62,24 +59,25 @@ function convertImage() {
             canvas.width = img.width;
             canvas.height = img.height;
             const ctx = canvas.getContext('2d');
-            
-            // White background for JPEGs (transparent becomes black otherwise)
-            if (format === 'image/jpeg') {
+
+            // White background for JPEGs
+            if (targetFormat === 'image/jpeg') {
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
-            
+
             ctx.drawImage(img, 0, 0);
             
-            const dataUrl = canvas.toDataURL(format, 0.9); // 0.9 quality
+            const dataUrl = canvas.toDataURL(targetFormat, 0.9);
             downloadLink.href = dataUrl;
+            downloadLink.download = `converted-${selectedFile.name.split('.')[0]}.${extension}`;
+            downloadLink.textContent = `Download .${extension.toUpperCase()}`;
+            downloadLink.style.display = 'block';
             
-            const ext = format.split('/')[1];
-            downloadLink.download = `converted-image.${ext}`;
-            downloadLink.style.display = 'inline-block';
-            downloadLink.innerText = `⬇️ Download .${ext.toUpperCase()}`;
+            // Scroll to download button
+            downloadLink.scrollIntoView({ behavior: 'smooth' });
         };
         img.src = e.target.result;
     };
-    reader.readAsDataURL(imageInput.files[0]);
+    reader.readAsDataURL(selectedFile);
 }   
