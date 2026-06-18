@@ -1,47 +1,27 @@
 const imageInput = document.getElementById('imageInput');
-const fileInfo = document.getElementById('fileInfo');
+const statusText = document.getElementById('statusText');
 const previewContainer = document.getElementById('previewContainer');
 const imagePreview = document.getElementById('imagePreview');
 const convertBtn = document.getElementById('convertBtn');
 const downloadLink = document.getElementById('downloadLink');
-const conversionMenu = document.getElementById('conversionMenu');
-const triggerWrapper = document.querySelector('.dropdown-trigger-wrapper');
 
 let selectedFile = null;
 let selectedFormat = null;
 
-// Toggle Dropdown
-function toggleDropdown() {
-    conversionMenu.classList.toggle('show');
-    triggerWrapper.classList.toggle('active');
-}
-
-// Select Format from Dropdown
-function selectFormat(format) {
+// Function to set format when an option is clicked
+function setFormat(format) {
     selectedFormat = format;
-    let label = format.replace('to-', '').toUpperCase();
-    fileInfo.textContent = `Will convert to: ${label}`;
-    fileInfo.style.color = '#ff9999'; // Highlight color
-    
-    // Close dropdown
-    conversionMenu.classList.remove('show');
-    triggerWrapper.classList.remove('active');
+    const label = format.replace('to-', '').toUpperCase();
+    statusText.textContent = `Will convert to: ${label}`;
+    statusText.style.color = '#ff9999'; // Highlight in pastel red
 }
-
-// Close dropdown if clicking outside
-document.addEventListener('click', function(event) {
-    if (!triggerWrapper.contains(event.target)) {
-        conversionMenu.classList.remove('show');
-        triggerWrapper.classList.remove('active');
-    }
-});
 
 // Handle File Selection
 imageInput.addEventListener('change', function(e) {
     if (e.target.files && e.target.files[0]) {
         selectedFile = e.target.files[0];
-        fileInfo.textContent = `Selected: ${selectedFile.name}`;
-        fileInfo.style.color = '#666';
+        statusText.textContent = `Selected: ${selectedFile.name}`;
+        statusText.style.color = '#666';
         
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -54,14 +34,14 @@ imageInput.addEventListener('change', function(e) {
     }
 });
 
-// Handle Conversion Logic
+// Handle Conversion
 function convertImage() {
     if (!selectedFile) {
         alert("Please choose a file first!");
         return;
     }
     if (!selectedFormat) {
-        alert("Please select a conversion format from the arrow menu!");
+        alert("Please select a format (JPG, PNG, etc.) from the arrow menu first!");
         return;
     }
 
@@ -85,6 +65,7 @@ function convertImage() {
             canvas.height = img.height;
             const ctx = canvas.getContext('2d');
 
+            // White background for JPEGs
             if (targetFormat === 'image/jpeg') {
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -102,4 +83,4 @@ function convertImage() {
         img.src = e.target.result;
     };
     reader.readAsDataURL(selectedFile);
-}   
+}Copied!   
