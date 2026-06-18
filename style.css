@@ -1,7 +1,6 @@
 :root {
     --pastel-red: #ff9999;
     --pastel-red-dark: #ff8080;
-    --pastel-red-light: #ffb3b3;
     --text-dark: #333;
     --text-light: #666;
     --bg-color: #f4f6f8;
@@ -34,19 +33,19 @@ body {
 h1 { margin: 0; color: var(--text-dark); font-weight: 600; font-size: 1.8rem; }
 .subtitle { margin: -10px 0 10px 0; color: var(--text-light); font-size: 0.95rem; }
 
-/* --- THE UNIFIED BAR --- */
-.split-button-container {
+/* Unified Button Bar */
+.button-bar {
     display: flex;
     width: 100%;
-    height: 55px; /* Taller height */
+    height: 55px;
     border-radius: 8px;
-    overflow: hidden; /* Ensures rounded corners only on outside */
+    overflow: hidden;
     box-shadow: 0 4px 15px rgba(255, 153, 153, 0.4);
 }
 
-/* Left Button: Choose Files */
-.main-btn {
-    flex-grow: 1; /* Takes up most space */
+/* Choose Files Button */
+.choose-btn {
+    flex-grow: 1;
     background-color: var(--pastel-red);
     color: white;
     border: none;
@@ -54,128 +53,43 @@ h1 { margin: 0; color: var(--text-dark); font-weight: 600; font-size: 1.8rem; }
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
-    border-right: 1px solid rgba(255,255,255,0.3); /* Subtle separator */
+    border-right: 1px solid rgba(255,255,255,0.3);
 }
 
-.main-btn:hover {
+.choose-btn:hover {
     background-color: var(--pastel-red-dark);
 }
 
-/* Right Button: The Arrow */
-.arrow-trigger {
-    width: 50px; /* Fixed width for arrow */
+/* Dropdown Container */
+.dropdown {
+    width: 50px;
     background-color: var(--pastel-red);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    position: relative; /* Needed for dropdown positioning */
+    position: relative;
     transition: background 0.2s;
 }
 
-.arrow-trigger:hover {
+.dropdown:hover {
     background-color: var(--pastel-red-dark);
 }
 
-/* The Arrow Icon */
-.arrow-icon {
+/* Arrow Icon */
+.arrow {
     color: white;
     font-size: 0.8rem;
     font-weight: bold;
     transition: transform 0.3s ease;
 }
 
-/* FLIP ON HOVER */
-.arrow-trigger:hover .arrow-icon {
-    transform: rotate(180deg);
-}
-
-/* The Dropdown Options (Pastel Red Boxes) */
-.dropdown-options {
+/* Dropdown Content */
+.dropdown-content {
+    display: none;
     position: absolute;
-    top: 100%; /* Directly below the arrow */
+    top: 100%;
     right: 0;
     width: 140px;
-    background: transparent;
-    display: none; /* Hidden by default */
-    flex-direction: column;
-    gap: 5px;
-    padding-top: 10px; /* Space between arrow and options */
-    z-index: 100;
-}
-
-/* Show Dropdown on Hover */
-.arrow-trigger:hover .dropdown-options {
-    display: flex;
-}
-
-/* Individual Option Boxes */
-.option-item {
     background-color: var(--pastel-red);
-    color: white;
-    padding: 12px;
-    text-align: center;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s, background 0.2s;
-}
-
-.option-item:hover {
-    background-color: var(--pastel-red-dark);
-    transform: scale(1.05);
-}
-
-/* --- Status & Preview --- */
-.status-text {
-    font-size: 0.9rem;
-    color: var(--text-light);
-    min-height: 20px;
-    font-weight: 500;
-}
-
-.preview-container {
-    margin-top: 10px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid #eee;
-    max-height: 200px;
-    display: flex;
-    justify-content: center;
-    background: #fafafa;
-}
-
-#imagePreview { max-width: 100%; max-height: 200px; object-fit: contain; }
-
-.action-btn {
-    background-color: #333;
-    color: white;
-    border: none;
-    padding: 14px;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    display: none;
-}
-
-.action-btn:hover { background-color: #000; }
-
-.download-btn {
-    display: none;
-    background-color: #4caf50;
-    color: white;
-    text-decoration: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 600;
-    margin-top: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.download-btn:hover { background-color: #45a049; }   
+    box-shadow: 0 8px 16px rgba(0,0   
