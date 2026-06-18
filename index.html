@@ -11,19 +11,21 @@
         <h1>Image Converter</h1>
         <p class="subtitle">Convert your images instantly</p>
 
-        <!-- Unified Button Bar -->
-        <div class="button-bar">
-            <button class="choose-btn" onclick="document.getElementById('imageInput').click()">
-                Choose Files
-            </button>
-            <div class="dropdown" onclick="toggleDropdown()">
-                <div class="arrow" id="arrow">▼</div>
-                <div class="dropdown-content" id="dropdownContent">
-                    <div class="dropdown-item" onclick="selectFormat('to-jpg')">JPG</div>
-                    <div class="dropdown-item" onclick="selectFormat('to-png')">PNG</div>
-                    <div class="dropdown-item" onclick="selectFormat('to-webp')">WebP</div>
-                    <div class="dropdown-item" onclick="selectFormat('to-gif')">GIF</div>
-                    <div class="dropdown-item" onclick="selectFormat('to-bmp')">BMP</div>
+        <!-- Unified Button Bar Container -->
+        <div class="button-bar-container">
+            <div class="button-bar">
+                <button class="choose-btn" onclick="document.getElementById('imageInput').click()">
+                    Choose Files
+                </button>
+                <div class="dropdown">
+                    <div class="arrow" id="arrow">▲</div>
+                    <div class="dropdown-content">
+                        <div class="dropdown-item" onclick="setFormat('to-jpg')">JPG</div>
+                        <div class="dropdown-item" onclick="setFormat('to-png')">PNG</div>
+                        <div class="dropdown-item" onclick="setFormat('to-webp')">WebP</div>
+                        <div class="dropdown-item" onclick="setFormat('to-gif')">GIF</div>
+                        <div class="dropdown-item" onclick="setFormat('to-bmp')">BMP</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,4 +45,4 @@
     </div>
     <script src="script.js"></script>
 </body>
-</html>   
+</html>
